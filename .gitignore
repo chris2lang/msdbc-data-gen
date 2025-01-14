@@ -1,0 +1,4 @@
+node_modules/
+
+#All generated files
+*.xlsx
