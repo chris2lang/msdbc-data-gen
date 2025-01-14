@@ -1,4 +1,6 @@
 import { utils, writeFile } from 'xlsx';
+import * as path from 'path';
+import * as fs from 'fs';
 import type { WorksheetPrivate, WorkbookPrivate } from '../types/xlsx.types';
 import { addXMLMapping } from './xml.utils';
 
@@ -30,8 +32,19 @@ export function generateExcelFile<T>(
         };
     }
 
+      // Path to the sibling directory
+      const genDataDir = path.resolve(__dirname, '..', '..', 'excel_files');
+
+      // Create the sibling directory if it doesn't exist
+      if (!fs.existsSync(genDataDir)) {
+          fs.mkdirSync(genDataDir);
+      }
+  
+      // Full path for the Excel file
+      const filePath = path.join(genDataDir, fileName);
+
     // Write the file
-    writeFile(wb, fileName, {
+    writeFile(wb, filePath, {
         bookType: 'xlsx',
         bookSST: false,
         type: 'buffer'
